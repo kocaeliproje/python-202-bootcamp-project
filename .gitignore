@@ -1,0 +1,19 @@
+# Python sanal ortam
+venv/
+env/
+
+# Python önbellek dosyaları
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Test ve log dosyaları
+.pytest_cache/
+*.log
+
+# Proje özgü dosyalar
+library.json  # Eğer JSON dosyasını repoya eklemek istemiyorsan
+.idea/        # VS Code veya PyCharm kullanıyorsan
+*.DS_Store    # macOS kullanıcıları için
