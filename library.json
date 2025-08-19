@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Kitap Ba\u015fl\u0131k deneme",
+        "author": "Kitap yazar deneme",
+        "isbn": "Kitap ISBN deneme"
+    },
+    {
+        "title": "Ulysses",
+        "author": "James Joyce",
+        "isbn": "9780141182803"
+    }
+]

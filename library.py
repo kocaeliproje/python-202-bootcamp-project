@@ -1,5 +1,6 @@
 import json
 import os
+import httpx
 
 from book import Book
 
@@ -25,6 +26,26 @@ class Library:
     def add_book(self, book):
         self.books.append(book)
         self.save_books()
+
+    def add_book_by_isbn(self, isbn):
+        url = f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data"
+        try:
+            response = httpx.get(url)
+            response.raise_for_status()  # Hata varsa exception fırlatır
+            data = response.json()
+            book_data = data.get(f"ISBN:{isbn}")
+            if not book_data:
+                return None, "Kitap bulunamadı."
+            title = book_data.get("title", "Bilinmeyen Başlık")
+            authors = book_data.get("authors", [{"name": "Bilinmeyen Yazar"}])
+            author = authors[0]["name"] if authors else "Bilinmeyen Yazar"
+            book = Book(title, author, isbn)
+            self.add_book(book)
+            return book, None
+        except httpx.HTTPStatusError:
+            return None, "API isteği başarısız. ISBN kontrol edin veya internet bağlantınızı kontrol edin."
+        except httpx.RequestError:
+            return None, "İnternet bağlantısı sorunu. Tekrar deneyin."
 
     def remove_book(self, isbn):
         book = self.find_book(isbn)
