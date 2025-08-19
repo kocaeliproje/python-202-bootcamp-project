@@ -23,7 +23,6 @@ def test_remove_book(temp_library):
     assert len(temp_library.books) == 0
 
 def test_add_book_by_isbn_success(temp_library, mocker):
-    # Mock httpx.get
     mock_response = mocker.Mock()
     mock_response.status_code = 200
     mock_response.json.return_value = {
@@ -42,12 +41,11 @@ def test_add_book_by_isbn_success(temp_library, mocker):
     assert len(temp_library.books) == 1
 
 def test_add_book_by_isbn_not_found(temp_library, mocker):
-    # Mock httpx.get
     mock_response = mocker.Mock()
     mock_response.status_code = 200
     mock_response.json.return_value = {}
     mocker.patch('httpx.get', return_value=mock_response)
     book, error = temp_library.add_book_by_isbn("9999999999")
     assert book is None
-    assert error == "Kitap bulunamadı."
+    assert error == "Kitap bulunamadı"
     assert len(temp_library.books) == 0
